@@ -1,0 +1,87 @@
+/* BlockSuite Editor - Neuro-Adaptive Theme */
+
+.blocksuite-editor-container {
+  width: 100%;
+  height: calc(100vh - 200px);
+  min-height: 500px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.blocksuite-editor-container affine-editor-container {
+  height: 100%;
+  --affine-font-family: var(--font-family-body);
+  --affine-font-code-family: var(--font-family-mono);
+}
+
+.editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-4);
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+.editor-title-input {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  width: 60%;
+  padding: var(--spacing-2) var(--spacing-3);
+  margin: 0;
+  transition: border-color var(--transition-fast);
+}
+
+.editor-title-input:hover {
+  border-color: var(--color-surface-elevated);
+}
+
+.editor-title-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+}
+
+.editor-title-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.editor-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.last-saved {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.save-button {
+  width: auto;
+  padding: var(--spacing-2) var(--spacing-6);
+  margin: 0;
+  height: auto;
+  min-height: var(--touch-target-min);
+}
+
+.editor-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+}
