@@ -7,9 +7,10 @@ import './editor.css';
 interface BlockSuiteEditorProps {
   doc: Doc;
   className?: string;
+  mode?: 'page' | 'edgeless';
 }
 
-export function BlockSuiteEditor({ doc, className }: BlockSuiteEditorProps) {
+export function BlockSuiteEditor({ doc, className, mode = 'page' }: BlockSuiteEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<AffineEditorContainer | null>(null);
 
@@ -19,6 +20,7 @@ export function BlockSuiteEditor({ doc, className }: BlockSuiteEditorProps) {
     // Create the AffineEditorContainer
     const editor = new AffineEditorContainer();
     editor.doc = doc;
+    editor.mode = mode; // Set initial mode
     editorRef.current = editor;
 
     // Mount to container
@@ -31,7 +33,14 @@ export function BlockSuiteEditor({ doc, className }: BlockSuiteEditorProps) {
       }
       editorRef.current = null;
     };
-  }, [doc]);
+  }, [doc]); // Re-create if doc changes
+
+  // Dynamic mode update
+  useEffect(() => {
+    if (editorRef.current && mode) {
+      editorRef.current.mode = mode;
+    }
+  }, [mode]);
 
   return (
     <div

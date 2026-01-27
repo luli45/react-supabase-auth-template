@@ -18,6 +18,8 @@ function EditorContent({ document, isSaving, save }: EditorContentProps) {
   const [title, setTitle] = useState(document.title);
   const [lastSaved, setLastSaved] = useState<Date | undefined>();
 
+  const [editorMode, setEditorMode] = useState<'page' | 'edgeless'>('page');
+
   const { doc, isReady, getSnapshot } = useBlockSuiteEditor({
     documentId: document.id,
     initialContent: document.content,
@@ -52,16 +54,56 @@ function EditorContent({ document, isSaving, save }: EditorContentProps) {
 
   return (
     <>
-      <EditorToolbar
-        title={title}
-        onTitleChange={handleTitleChange}
-        onSave={handleSave}
-        isSaving={isSaving}
-        lastSaved={lastSaved}
-      />
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--spacing-md)' }}>
+        <EditorToolbar
+          title={title}
+          onTitleChange={handleTitleChange}
+          onSave={handleSave}
+          isSaving={isSaving}
+          lastSaved={lastSaved}
+        />
+
+        {/* Write/Draw Toggle */}
+        <div className="mode-toggle glass-panel" style={{ display: 'flex', padding: '4px', borderRadius: 'var(--radius-lg)', gap: '4px' }}>
+          <button
+            onClick={() => setEditorMode('page')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: 'var(--radius-md)',
+              border: 'none',
+              background: editorMode === 'page' ? 'var(--color-primary)' : 'transparent',
+              color: editorMode === 'page' ? 'white' : 'var(--color-text-subtle)',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.9rem',
+              transition: 'all 0.2s'
+            }}
+          >
+            Write
+          </button>
+          <button
+            onClick={() => setEditorMode('edgeless')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: 'var(--radius-md)',
+              border: 'none',
+              background: editorMode === 'edgeless' ? 'var(--color-accent)' : 'transparent',
+              color: editorMode === 'edgeless' ? 'var(--color-primary)' : 'var(--color-text-subtle)',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.9rem',
+              transition: 'all 0.2s'
+            }}
+          >
+            Draw
+          </button>
+        </div>
+      </div>
 
       {isReady && doc ? (
-        <BlockSuiteEditor doc={doc} className="editor-main" />
+        <div style={{ height: 'calc(100vh - 140px)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+          <BlockSuiteEditor doc={doc} className="editor-main" mode={editorMode} />
+        </div>
       ) : (
         <div className="editor-loading">Initializing editor...</div>
       )}

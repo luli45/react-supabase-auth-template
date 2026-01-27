@@ -28,14 +28,29 @@ We will use CSS Variables to define the "Calm Focus" palette and design tokens.
 
 ### Dashboard Component
 
-#### [NEW] [Dashboard.tsx](file:///Users/luli/Documents/apps/note app/src/pages/Dashboard.tsx)
-*(Or modify existing if present)*
+#### [NEW] [DashboardPage.tsx](file:///Users/luli/Documents/apps/note app/src/pages/DashboardPage.tsx)
+*(Refactor existing)*
 -   Implement the "Low-Friction" layout.
 -   **Hero Section**:
     -   Greeting (e.g., "Ready to focus, Alex?")
     -   **One-Click Start Button**: Distinct visual style using `--color-accent`.
 -   **Progress Section**:
     -   "Growth Rings" visual (using SVG or CSS radial gradients).
+
+## Phase 2: Intelligence Features (From Learngraph/Sankofa)
+*To be implemented after Design System & Dashboard.*
+
+### Audio Study Mode (ElevenLabs)
+-   **Port Logic**: Adapt `app/api/audio/route.ts` from Sankofa to a Supabase Edge Function (or client-side service if local).
+-   **UI Component**: Create `AudioPlayer.tsx` with speed controls (0.5x - 2.5x) for Neuro-Adaptive learning.
+
+### Mindmap Visualization
+-   **Library**: Install `reactflow` and `elkjs` (graph layout).
+-   **Component**: Adapt `MindMap.tsx` from Sankofa to visualize note connections.
+
+### Web Scraping (Hyperbrowser/Firecrawl)
+-   **Service**: Use user's preferred scraping tool (Hyperbrowser key if available, or alternative).
+-   **Integration**: Create a "Research" tab in the dashboard to ingest URLs.
 
 ## Verification Plan
 

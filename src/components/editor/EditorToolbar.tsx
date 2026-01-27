@@ -31,7 +31,7 @@ export function EditorToolbar({
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      e.currentTarget.blur();
+      (e.currentTarget as HTMLElement).blur();
     }
   }, []);
 

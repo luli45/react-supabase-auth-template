@@ -5,12 +5,15 @@ import SignUpPage from "../pages/auth/SignUpPage.tsx";
 import ProtectedPage from "../pages/ProtectedPage.tsx";
 import NotFoundPage from "../pages/404Page.tsx";
 import AuthProtectedRoute from "./AuthProtectedRoute.tsx";
+import ModernLayout from "../components/layout/ModernLayout.tsx";
 import Providers from "../Providers.tsx";
 import DashboardPage from "../pages/DashboardPage.tsx";
 import DocumentsListPage from "../pages/documents/DocumentsListPage.tsx";
 import DocumentEditorPage from "../pages/documents/DocumentEditorPage.tsx";
 import StudyMaterialsPage from "../pages/study/StudyMaterialsPage.tsx";
 import StudyAssistantPage from "../pages/study/StudyAssistantPage.tsx";
+import ListenPage from "../pages/ListenPage.tsx";
+import ResearchPage from "../pages/ResearchPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -36,28 +39,41 @@ const router = createBrowserRouter([
         element: <AuthProtectedRoute />,
         children: [
           {
-            path: "/dashboard",
-            element: <DashboardPage />,
-          },
-          {
-            path: "/protected",
-            element: <ProtectedPage />,
-          },
-          {
-            path: "/documents",
-            element: <DocumentsListPage />,
-          },
-          {
-            path: "/documents/:id",
-            element: <DocumentEditorPage />,
-          },
-          {
-            path: "/study",
-            element: <StudyMaterialsPage />,
-          },
-          {
-            path: "/study/:id",
-            element: <StudyAssistantPage />,
+            element: <ModernLayout />, // UI Layout
+            children: [
+              {
+                path: "/dashboard",
+                element: <DashboardPage />,
+              },
+              {
+                path: "/protected",
+                element: <ProtectedPage />,
+              },
+              {
+                path: "/documents",
+                element: <DocumentsListPage />,
+              },
+              {
+                path: "/documents/:id",
+                element: <DocumentEditorPage />,
+              },
+              {
+                path: "/study",
+                element: <StudyMaterialsPage />,
+              },
+              {
+                path: "/study/:id",
+                element: <StudyAssistantPage />,
+              },
+              {
+                path: "/listen",
+                element: <ListenPage />,
+              },
+              {
+                path: "/research",
+                element: <ResearchPage />,
+              },
+            ],
           },
         ],
       },

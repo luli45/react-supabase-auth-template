@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useStudyMaterial } from '../../hooks/useStudyMaterials';
 import { aiService } from '../../services/aiService';
