@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSession } from '../context/SessionContext';
 import { useDocuments } from '../hooks/useDocuments';
-import { GrowthRings, GrowthRingsGroup } from '../components/dashboard/GrowthRings';
+import { GrowthRingsGroup } from '../components/dashboard/GrowthRings';
 import supabase from '../supabase';
 import './DashboardPage.css';
 
@@ -64,9 +64,9 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <section className="dashboard-welcome">
             <div className="welcome-text">
-              <h1>Welcome back, {firstName}</h1>
+              <h1>Ready to focus, {firstName}?</h1>
               <p className="text-secondary">
-                Ready for a focused study session? Pick up where you left off or start something new.
+                Let's simplify your study session. Pick a mode below to get started.
               </p>
             </div>
           </section>
