@@ -3,8 +3,8 @@ import mammoth from 'mammoth';
 import Tesseract from 'tesseract.js';
 import type { FileType } from '../types/studyMaterial';
 
-// Set up PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+// Set up PDF.js worker from public folder
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 export interface ParseResult {
   text: string;
