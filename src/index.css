@@ -1,45 +1,46 @@
 :root {
-  /* "Modern Clean" Palette - AFFiNE-inspired */
+  /* "AFFiNE-Pro" Palette */
 
-  /* Base Colors (Zinc/Slate) */
-  --color-primary: #18181b;
-  /* Zinc 950 - Main Text */
-  --color-secondary: #71717a;
-  /* Zinc 500 - Subtitles */
-  --color-tertiary: #a1a1aa;
-  /* Zinc 400 - Icons/Inactive */
+  /* Usage: Primary for text, Surface for cards, Subtle for backgrounds */
+  --color-primary: #1e1e20;
+  /* Almost Black */
+  --color-secondary: #70707c;
+  /* Muted Gray */
+  --color-tertiary: #a0a0ab;
+  /* Light Gray for icons */
 
   /* Backgrounds */
   --color-bg-default: #ffffff;
-  /* Pure White */
-  --color-bg-subtle: #fafafa;
-  /* Zinc 50 - Sidebar/Cards */
-  --color-bg-glass: rgba(255, 255, 255, 0.8);
+  --color-bg-subtle: #f7f7f9;
+  /* Very light gray-blue tint */
+  --color-bg-glass: rgba(255, 255, 255, 0.75);
+  --color-bg-overlay: rgba(0, 0, 0, 0.02);
 
   /* Surfaces */
   --color-surface: #ffffff;
   --color-surface-hover: #f4f4f5;
-  /* Zinc 100 */
-  --color-surface-active: #e4e4e7;
-  /* Zinc 200 */
+  --color-surface-active: #ebebef;
 
-  /* Accents (Purple/Blue Gradient inspired) */
-  --color-accent: #7c3aed;
-  /* Violet 600 */
-  --color-accent-subtle: #f5f3ff;
-  /* Violet 50 */
-  --color-accent-hover: #6d28d9;
+  /* Accents - "Electric Violet" & "Focus Blue" gradients in UI, keeping simple here */
+  --color-accent: #7e22ce;
+  /* Purple 700 */
+  --color-accent-glare: #9333ea;
+  /* Purple 600 */
+  --color-accent-subtle: #f3e8ff;
+  /* Purple 100 */
 
   /* Functional */
-  --color-error: #ef4444;
-  --color-success: #10b981;
-  --color-border: #e4e4e7;
-  /* Zinc 200 - Crisp borders */
+  --color-border: #e8e8ec;
+  /* Very subtle border */
+  --color-border-hover: #d4d4d8;
+  --color-divider: #f0f0f3;
 
   /* Typography */
-  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -49,43 +50,48 @@
   --spacing-xl: 32px;
   --spacing-xxl: 48px;
 
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  /* Slightly more square than before */
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  /* Border Radius - The "Squircle" feel */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  /* Cards */
+  --radius-lg: 16px;
+  /* Containers */
+  --radius-xl: 24px;
+  /* Floating elements */
   --radius-full: 9999px;
 
-  /* Shadows (Diffuse & Soft) */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-  --shadow-float: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.01);
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+  /* Shadows - "Super Soft" */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  --shadow-float: 0 20px 40px -4px rgba(0, 0, 0, 0.08);
+  /* High float */
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
 
-  --backdrop-blur: blur(16px);
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --backdrop-blur: blur(20px);
+  --transition-smooth: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Glassmorphism Utilities */
+/* Glassmorphism & Utilities */
 .glass-panel {
   background: var(--color-bg-glass);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  border-right: 1px solid var(--color-border);
+  border: 1px solid var(--color-border);
 }
 
 .glass-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
+  transition: all var(--transition-smooth);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .glass-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-float);
+  transform: translateY(-2px);
+  border-color: var(--color-border-hover);
 }
 
 * {
@@ -95,9 +101,10 @@
 }
 
 body {
-  background-color: var(--color-bg-default);
+  background-color: var(--color-bg-subtle);
+  /* Global light gray background */
   color: var(--color-primary);
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
@@ -113,46 +120,34 @@ h6 {
   font-weight: 600;
   color: var(--color-primary);
   letter-spacing: -0.025em;
-  /* Tighter heading tracking */
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Accessibility: Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Base Inputs */
 button {
   font-family: inherit;
 }
 
-/* Utility Classes */
+/* Container */
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
 }
 
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-weight: 500;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-smooth);
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+}
+
+.btn:hover {
+  box-shadow: var(--shadow-md);
 }

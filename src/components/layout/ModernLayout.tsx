@@ -3,7 +3,7 @@ import { Sidebar } from './Sidebar';
 
 export default function ModernLayout() {
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--color-bg-default)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--color-bg-subtle)' }}>
             {/* Fixed Sidebar */}
             <Sidebar />
 
