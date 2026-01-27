@@ -26,9 +26,9 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const groqKey = Deno.env.get('GROQ_API_KEY');
-    if (!groqKey) {
-      throw new Error('GROQ_API_KEY not configured');
+    const geminiKey = Deno.env.get('GEMINI_API_KEY');
+    if (!geminiKey) {
+      throw new Error('GEMINI_API_KEY not configured');
     }
 
     const { action, materialText, style, question, concept, conversationHistory } = await req.json();
@@ -38,14 +38,14 @@ Deno.serve(async (req) => {
     }
 
     // Truncate material if too long
-    const maxLength = 30000; // Groq has smaller context than Claude
+    const maxLength = 100000; // Gemini has larger context window
     const truncatedMaterial = materialText.length > maxLength
       ? materialText.substring(0, maxLength) + '\n\n[Material truncated due to length...]'
       : materialText;
 
     let systemPrompt: string;
     let userMessage: string;
-    const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [];
+    const contents: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
 
     switch (action) {
       case 'summarize':
@@ -60,9 +60,9 @@ Deno.serve(async (req) => {
         // Add conversation history if provided
         if (conversationHistory && Array.isArray(conversationHistory)) {
           for (const msg of conversationHistory) {
-            messages.push({
-              role: msg.role as 'user' | 'assistant',
-              content: msg.content,
+            contents.push({
+              role: msg.role === 'assistant' ? 'model' : 'user',
+              parts: [{ text: msg.content }],
             });
           }
         }
@@ -80,32 +80,37 @@ Deno.serve(async (req) => {
         throw new Error(`Unknown action: ${action}`);
     }
 
-    // Build messages array with system prompt
-    messages.unshift({ role: 'system', content: systemPrompt });
-    messages.push({ role: 'user', content: userMessage });
-
-    // Call Groq API
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${groqKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages,
-        max_tokens: 4096,
-        temperature: 0.7,
-      }),
+    // Add the user message with system instruction prefix
+    contents.push({
+      role: 'user',
+      parts: [{ text: `${systemPrompt}\n\n${userMessage}` }],
     });
+
+    // Call Gemini API
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 4096,
+          },
+        }),
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error?.message || `Groq API error: ${response.status}`);
+      throw new Error(errorData.error?.message || `Gemini API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || '';
+    const content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
     return new Response(
       JSON.stringify({ content }),

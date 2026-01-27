@@ -1,27 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSession } from '../context/SessionContext';
 import { useDocuments } from '../hooks/useDocuments';
-import { GrowthRingsGroup } from '../components/dashboard/GrowthRings';
 import supabase from '../supabase';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
   const { session } = useSession();
-  const { documents, isLoading, createDocument } = useDocuments();
+  const { documents, createDocument } = useDocuments();
   const navigate = useNavigate();
 
   const firstName = session?.user?.email?.split('@')[0] || 'there';
 
   // Get the most recent document for "Resume" functionality
   const recentDoc = documents[0];
-
-  // Mock progress data (would come from user's study progress)
-  const progressData = {
-    todayMinutes: 15,
-    weeklyGoal: 0.4, // 40% of weekly goal
-    totalSessions: 12,
-    streak: 3,
-  };
 
   const handleQuickStart = async () => {
     if (recentDoc) {
@@ -65,162 +56,171 @@ export default function DashboardPage() {
         <div className="container">
           {/* Welcome Section */}
           <section className="dashboard-welcome">
-            <div className="welcome-text">
-              <h1>Ready to focus, {firstName}?</h1>
-              <p className="text-secondary" style={{ color: 'var(--color-text-subtle)', maxWidth: '600px', fontSize: '1.2rem' }}>
-                Your brain is ready. Let's find your flow.
-              </p>
-            </div>
+            <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Good afternoon, {firstName}.</h1>
+            <p className="text-secondary" style={{ color: 'var(--color-secondary)' }}>
+              Ready to continue your work?
+            </p>
           </section>
 
-          {/* Quick Start Section - The "Next Step" */}
-          <section className="dashboard-quickstart">
-            <div className="quickstart-card" style={{ boxShadow: 'var(--shadow-lg)', border: '1px solid rgba(0,0,0,0.05)' }}>
-              <div className="quickstart-content">
-                <h2>Continue Your Journey</h2>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem' }}>
-                  {recentDoc
-                    ? `Resume "${recentDoc.title}"`
-                    : 'Start your first study session'}
+          {/* Bento Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(12, 1fr)',
+            gridAutoRows: 'minmax(180px, auto)',
+            gap: 'var(--spacing-md)',
+            marginTop: 'var(--spacing-xl)'
+          }}>
+
+            {/* Quick Start Card (Main) - Spans 8 cols */}
+            <div className="glass-card" style={{
+              gridColumn: 'span 8',
+              padding: 'var(--spacing-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              borderRadius: 'var(--radius-lg)'
+            }}>
+              <div>
+                <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--spacing-xs)' }}>
+                  {recentDoc ? `Resume "${recentDoc.title}"` : 'Start writing'}
+                </h2>
+                <p style={{ color: 'var(--color-secondary)' }}>
+                  {recentDoc ? `Last edited ${new Date(recentDoc.updated_at).toLocaleDateString()}` : 'Create your first document to get started.'}
                 </p>
               </div>
               <button
                 onClick={handleQuickStart}
-                className="btn btn--accent btn--large quickstart-btn"
+                className="btn"
                 style={{
-                  backgroundColor: 'var(--color-accent)',
-                  color: 'var(--color-primary)',
-                  fontWeight: '700',
-                  boxShadow: 'var(--shadow-md)',
-                  border: '2px solid transparent'
+                  backgroundColor: 'var(--color-primary)',
+                  color: 'white',
+                  alignSelf: 'start',
+                  marginTop: 'var(--spacing-md)',
+                  padding: '10px 24px'
                 }}
               >
-                {recentDoc ? 'Resume Session' : 'Start Now'}
+                {recentDoc ? 'Continue Editing' : 'Create Document'}
               </button>
             </div>
-          </section>
 
-          {/* Progress Overview with Growth Rings */}
-          <section className="dashboard-progress">
-            <h2 className="section-title">Your Progress</h2>
-            <p className="section-subtitle" style={{ color: 'var(--color-text-subtle)' }}>
-              Growth happens in small steps. Here's how you're doing.
-            </p>
-            <div className="progress-rings">
-              <GrowthRingsGroup
-                rings={[
-                  {
-                    progress: progressData.todayMinutes / 60,
-                    label: 'Today',
-                    value: `${progressData.todayMinutes}m`,
-                  },
-                  {
-                    progress: progressData.weeklyGoal,
-                    label: 'This Week',
-                    value: `${Math.round(progressData.weeklyGoal * 100)}%`,
-                  },
-                  {
-                    progress: progressData.streak / 7,
-                    label: 'Streak',
-                    value: progressData.streak,
-                  },
-                ]}
-              />
-            </div>
-          </section>
-
-          {/* Study Mode Selection */}
-          <section className="dashboard-modes">
-            <h2 className="section-title">Choose Your Mode</h2>
-            <div className="mode-cards mode-cards--three">
-              <Link to="/research" className="mode-card" style={{ boxShadow: 'var(--shadow-sm)' }}>
-                <div className="mode-icon" style={{ color: 'var(--color-primary)' }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </svg>
-                </div>
-                <h3>Research</h3>
-                <p>Scrape websites for distraction-free reading.</p>
-              </Link>
-
-              <Link to="/study" className="mode-card" style={{ boxShadow: 'var(--shadow-sm)' }}>
-                <div className="mode-icon mode-icon--accent" style={{ color: 'var(--color-secondary)' }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 16v-4" />
-                    <path d="M12 8h.01" />
-                  </svg>
-                </div>
-                <h3>AI Study Assistant</h3>
-                <p>Upload materials, get summaries, and ask questions.</p>
-              </Link>
-
-              <button className="mode-card" onClick={handleNewDocument} style={{ boxShadow: 'var(--shadow-sm)' }}>
-                <div className="mode-icon" style={{ color: 'var(--color-primary)' }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                  </svg>
-                </div>
-                <h3>Read & Write</h3>
-                <p>Distraction-free note taking and highlighting.</p>
-              </button>
-
-              <Link to="/listen" className="mode-card" style={{ boxShadow: 'var(--shadow-sm)' }}>
-                <div className="mode-icon" style={{ color: 'var(--color-text-subtle)' }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-                  </svg>
-                </div>
-                <h3>Listen</h3>
-                <p>Turn notes into neuro-adaptive podcasts.</p>
-              </Link>
-            </div>
-          </section>
-
-          {/* Recent Documents */}
-          <section className="dashboard-recent">
-            <div className="section-header">
-              <div>
-                <h2 className="section-title">Recent Documents</h2>
+            {/* Study Stats / Progress - Spans 4 cols */}
+            <div className="glass-card" style={{
+              gridColumn: 'span 4',
+              padding: 'var(--spacing-lg)',
+              borderRadius: 'var(--radius-lg)'
+            }}>
+              <h3 style={{ fontSize: '1rem', color: 'var(--color-secondary)', marginBottom: 'var(--spacing-md)' }}>Weekly Goal</h3>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: '700', color: 'var(--color-primary)' }}>15</span>
+                <span style={{ color: 'var(--color-tertiary)' }}>/ 40 mins</span>
               </div>
-              <Link to="/documents" className="btn btn--ghost btn--small">
-                View All
-              </Link>
+              <div style={{
+                height: '6px',
+                backgroundColor: 'var(--color-surface-active)',
+                borderRadius: '99px',
+                marginTop: 'var(--spacing-md)',
+                overflow: 'hidden'
+              }}>
+                <div style={{ width: '35%', height: '100%', backgroundColor: 'var(--color-accent)' }}></div>
+              </div>
             </div>
 
-            {isLoading ? (
-              <div className="loading-placeholder">Loading...</div>
-            ) : documents.length === 0 ? (
-              <div className="empty-state">
-                <p>No documents yet. Create your first one to get started!</p>
-                <button onClick={handleNewDocument} className="btn btn--secondary">
-                  Create Document
-                </button>
+            {/* Tools Grid - Spans 12 cols (Row 2) */}
+
+            {/* Read & Write */}
+            <div className="glass-card" onClick={handleNewDocument} style={{
+              gridColumn: 'span 4',
+              padding: 'var(--spacing-lg)',
+              cursor: 'pointer',
+              borderRadius: 'var(--radius-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-sm)'
+            }}>
+              <div style={{
+                width: '40px', height: '40px',
+                background: 'var(--color-surface-active)',
+                borderRadius: 'var(--radius-sm)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+              </div>
+              <h3 style={{ fontSize: '1.1rem' }}>Read & Write</h3>
+              <p style={{ color: 'var(--color-secondary)', fontSize: '0.9rem' }}>Detailed note taking.</p>
+            </div>
+
+            {/* Mindmap (Graph) */}
+            <Link to="/graph" className="glass-card" style={{
+              gridColumn: 'span 4',
+              padding: 'var(--spacing-lg)',
+              borderRadius: 'var(--radius-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-sm)'
+            }}>
+              <div style={{
+                width: '40px', height: '40px',
+                background: 'var(--color-accent-subtle)',
+                color: 'var(--color-accent)',
+                borderRadius: 'var(--radius-sm)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              </div>
+              <h3 style={{ fontSize: '1.1rem' }}>Mindmap</h3>
+              <p style={{ color: 'var(--color-secondary)', fontSize: '0.9rem' }}>Visualize your knowledge graph.</p>
+            </Link>
+
+            {/* Research */}
+            <Link to="/research" className="glass-card" style={{
+              gridColumn: 'span 4',
+              padding: 'var(--spacing-lg)',
+              borderRadius: 'var(--radius-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-sm)'
+            }}>
+              <div style={{
+                width: '40px', height: '40px',
+                background: 'var(--color-surface-active)',
+                borderRadius: 'var(--radius-sm)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+              </div>
+              <h3 style={{ fontSize: '1.1rem' }}>Research</h3>
+              <p style={{ color: 'var(--color-secondary)', fontSize: '0.9rem' }}>Capture content from the web.</p>
+            </Link>
+
+          </div>
+
+          {/* Recent Documents List */}
+          <section className="dashboard-recent" style={{ marginTop: 'var(--spacing-xl)' }}>
+            <h2 className="section-title" style={{ fontSize: '1.2rem', marginBottom: 'var(--spacing-md)' }}>Recent Notes</h2>
+            {documents.length === 0 ? (
+              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--color-tertiary)', background: 'var(--color-surface)', borderRadius: 'var(--radius-lg)', border: '1px border var(--color-border)' }}>
+                No documents found.
               </div>
             ) : (
-              <div className="recent-list">
-                {documents.slice(0, 4).map((doc) => (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
+                {documents.slice(0, 5).map((doc) => (
                   <Link
                     key={doc.id}
                     to={`/documents/${doc.id}`}
-                    className="recent-card"
-                    style={{ borderRadius: 'var(--radius-md)', border: '1px solid transparent' }}
+                    className="glass-card"
+                    style={{
+                      padding: 'var(--spacing-md)',
+                      borderRadius: 'var(--radius-md)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 'var(--spacing-md)'
+                    }}
                   >
-                    <div className="recent-card-icon" style={{ color: 'var(--color-secondary)' }}>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                      </svg>
+                    <div style={{ color: 'var(--color-tertiary)' }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
                     </div>
-                    <div className="recent-card-content">
-                      <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 600 }}>{doc.title}</h3>
-                      <span className="recent-card-date" style={{ color: 'var(--color-text-subtle)' }}>
-                        {new Date(doc.updated_at).toLocaleDateString()}
-                      </span>
-                    </div>
+                    <span style={{ fontWeight: '500' }}>{doc.title}</span>
+                    <span style={{ marginLeft: 'auto', color: 'var(--color-tertiary)', fontSize: '0.8rem' }}>{new Date(doc.updated_at).toLocaleDateString()}</span>
                   </Link>
                 ))}
               </div>

@@ -5,7 +5,8 @@ import {
     Mic,
     Globe,
     BookOpen,
-    LogOut
+    LogOut,
+    Network
 } from 'lucide-react';
 import { useSession } from '../../context/SessionContext';
 import supabase from '../../supabase';
@@ -22,6 +23,7 @@ export function Sidebar() {
     const navItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
         { icon: FileText, label: 'Notes', path: '/documents' },
+        { icon: Network, label: 'Mindmap', path: '/graph' },
         { icon: BookOpen, label: 'Study Assistant', path: '/study' },
         { icon: Mic, label: 'Listen', path: '/listen' },
         { icon: Globe, label: 'Research', path: '/research' },

@@ -14,6 +14,7 @@ import StudyMaterialsPage from "../pages/study/StudyMaterialsPage.tsx";
 import StudyAssistantPage from "../pages/study/StudyAssistantPage.tsx";
 import ListenPage from "../pages/ListenPage.tsx";
 import ResearchPage from "../pages/ResearchPage.tsx";
+import GraphPage from "../pages/GraphPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
               {
                 path: "/protected",
                 element: <ProtectedPage />,
+              },
+              {
+                path: "/graph",
+                element: <GraphPage />,
               },
               {
                 path: "/documents",
