@@ -4,6 +4,7 @@ import { useDocument } from '../../hooks/useDocument';
 import { useBlockSuiteEditor } from '../../hooks/useBlockSuiteEditor';
 import { BlockSuiteEditor } from '../../components/editor/BlockSuiteEditor';
 import { EditorToolbar } from '../../components/editor/EditorToolbar';
+import { EditorAISidebar } from '../../components/editor/EditorAISidebar';
 import type { Document } from '../../types/document';
 import './documents.css';
 
@@ -19,11 +20,28 @@ function EditorContent({ document, isSaving, save }: EditorContentProps) {
   const [lastSaved, setLastSaved] = useState<Date | undefined>();
 
   const [editorMode, setEditorMode] = useState<'page' | 'edgeless'>('page');
+  const [showAISidebar, setShowAISidebar] = useState(false);
+  const [currentDocText, setCurrentDocText] = useState('');
 
-  const { doc, isReady, getSnapshot } = useBlockSuiteEditor({
+  const { doc, isReady, getSnapshot, getDocText } = useBlockSuiteEditor({
     documentId: document.id,
     initialContent: document.content,
   });
+
+  // Update text for AI when sidebar opens
+  useEffect(() => {
+    if (showAISidebar && isReady) {
+      getDocText().then(setCurrentDocText);
+    }
+  }, [showAISidebar, isReady, getDocText]);
+
+  const handleInsertContent = useCallback((content: string) => {
+    // In a real implementation, we would insert at cursor.
+    // For now, we might alert or append to end if we had a proper 'insertAtEnd' method.
+    // BlockSuite is complex, we will just copy to clipboard for now or assume user can copy-paste
+    navigator.clipboard.writeText(content);
+    alert("Content copied to clipboard! Paste it where you want.");
+  }, []);
 
   const handleSave = useCallback(async () => {
     if (!doc) return;
@@ -98,15 +116,40 @@ function EditorContent({ document, isSaving, save }: EditorContentProps) {
             Draw
           </button>
         </div>
+
+        <button
+          onClick={() => setShowAISidebar(!showAISidebar)}
+          className="btn glass-panel"
+          style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '8px 16px', borderRadius: 'var(--radius-lg)',
+            color: 'var(--color-primary)', border: '1px solid var(--color-border)',
+            fontWeight: 600
+          }}
+        >
+          ✨ AI Copilot
+        </button>
       </div>
 
-      {isReady && doc ? (
-        <div style={{ height: 'calc(100vh - 140px)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <BlockSuiteEditor doc={doc} className="editor-main" mode={editorMode} />
-        </div>
-      ) : (
-        <div className="editor-loading">Initializing editor...</div>
-      )}
+      <div style={{ position: 'relative', display: 'flex', gap: '16px', height: 'calc(100vh - 140px)' }}>
+        {isReady && doc ? (
+          <div style={{ flex: 1, borderColor: 'var(--color-border)', borderStyle: 'solid', borderWidth: '1px', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+            <BlockSuiteEditor doc={doc} className="editor-main" mode={editorMode} />
+          </div>
+        ) : (
+          <div className="editor-loading">Initializing editor...</div>
+        )}
+
+        {showAISidebar && (
+          <div style={{ width: '350px', position: 'relative' }}>
+            <EditorAISidebar
+              docText={currentDocText}
+              onInsertContent={handleInsertContent}
+              onClose={() => setShowAISidebar(false)}
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 }

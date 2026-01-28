@@ -13,6 +13,7 @@ interface UseBlockSuiteEditorResult {
   collection: DocCollection | null;
   isReady: boolean;
   getSnapshot: () => Promise<DocSnapshot>;
+  getDocText: () => Promise<string>;
 }
 
 export function useBlockSuiteEditor({
@@ -63,10 +64,37 @@ export function useBlockSuiteEditor({
     return exportDocToSnapshot(doc);
   }, [doc]);
 
+  const getDocText = useCallback(async (): Promise<string> => {
+    if (!doc) return '';
+    // Quick and dirty extraction: iterate blocks
+    // Ideally we use a markdown exporter
+    try {
+      // We can use the snapshot json to extract text
+      const snapshot = await exportDocToSnapshot(doc);
+      const blocks = snapshot.blocks;
+      let text = '';
+      // Recursive text extraction or simple iteration depending on structure
+      // Assuming simple structure for now or using titles+text
+      Object.values(blocks).forEach((block: any) => {
+        if (block.props?.text) {
+          text += block.props.text.deltas?.map((d: any) => d.insert).join('') + '\n';
+        }
+        if (block.props?.caption) { // For images/other blocks
+          text += block.props.caption + '\n';
+        }
+      });
+      return text;
+    } catch (e) {
+      console.error("Error extracting text", e);
+      return "";
+    }
+  }, [doc]);
+
   return {
     doc,
     collection: collectionRef.current,
     isReady,
     getSnapshot,
+    getDocText,
   };
 }

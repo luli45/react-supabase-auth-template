@@ -1,6 +1,7 @@
 .header {
-  background-color: var(--color-background);
-  border-bottom: 1px solid var(--color-surface-elevated);
+  background-color: transparent;
+  width: 100%;
+  transition: all 0.3s ease;
 }
 
 .sticky {
@@ -8,23 +9,27 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: var(--z-sticky);
-  background-color: rgba(249, 247, 242, 0.95);
-  backdrop-filter: blur(8px);
+  z-index: 100;
+  /* Explicit high z-index */
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
-  gap: var(--spacing-4);
+  height: 64px;
+  gap: var(--spacing-md);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
+  gap: var(--spacing-sm);
   text-decoration: none;
   color: var(--color-primary);
 }
@@ -33,37 +38,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background-color: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-family: var(--font-family-heading);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-lg);
-  border-radius: var(--radius-md);
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-glare));
+  color: white;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: var(--radius-sm);
 }
 
 .logoText {
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .navList {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--spacing-lg);
   list-style: none;
 }
 
 .navLink {
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-secondary);
   text-decoration: none;
-  transition: color var(--transition-fast);
-  padding: var(--spacing-2) 0;
+  transition: color 0.2s ease;
 }
 
 .navLink:hover {
@@ -73,7 +77,7 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--spacing-3);
+  gap: var(--spacing-sm);
 }
 
 .desktopOnly {
@@ -100,18 +104,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   background: transparent;
   border: none;
   cursor: pointer;
+  color: var(--color-primary);
 }
 
 .menuIcon {
   display: block;
   width: 24px;
   height: 2px;
-  background-color: var(--color-primary);
+  background-color: currentColor;
   position: relative;
 }
 
@@ -122,7 +127,7 @@
   left: 0;
   width: 24px;
   height: 2px;
-  background-color: var(--color-primary);
+  background-color: currentColor;
 }
 
 .menuIcon::before {
@@ -135,34 +140,34 @@
 
 .mobileMenu {
   position: absolute;
-  top: 72px;
+  top: 64px;
   left: 0;
   right: 0;
   background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-surface-elevated);
+  border-bottom: 1px solid var(--color-border);
   box-shadow: var(--shadow-lg);
-  padding: var(--spacing-4);
+  padding: var(--spacing-md);
+  z-index: 99;
 }
 
 .mobileNavList {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-xs);
 }
 
 .mobileNavLink {
   display: block;
-  padding: var(--spacing-3) var(--spacing-4);
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-primary);
   text-decoration: none;
   border-radius: var(--radius-md);
-  transition: background-color var(--transition-fast);
+  transition: background-color 0.2s ease;
 }
 
 .mobileNavLink:hover {
-  background-color: var(--color-surface-elevated);
+  background-color: var(--color-surface-hover);
 }

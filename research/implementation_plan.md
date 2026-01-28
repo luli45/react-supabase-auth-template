@@ -61,3 +61,19 @@ We will use CSS Variables to define the "Calm Focus" palette and design tokens.
 -   Verify accessibility:
     -   Contrast ratios (Deep Slate Blue on Off-White is > 4.5:1).
     -   Tab navigation focus rings.
+
+## Phase 5: Editor Intelligence (AFFiNE-like Features)
+*Enhancing manual note taking with AI.*
+
+### AI Copilot Sidebar
+-   **Component**: `EditorAISidebar.tsx`
+-   **Integration**: Resides inside `DocumentEditorPage.tsx`.
+-   **Capabilities**:
+    -   **Context Awareness**: Reads the current BlockSuite doc content.
+    -   **Actions**: "Summarize Note", "Fix Grammar", "Continue Writing".
+    -   **Insertion**: Button to "Insert at Cursor" (appending to doc).
+
+### Editor Enhancements
+-   **Layout**: Full-width "Scree-like" mode (Distraction Free).
+-   **Slash Commands**: Verify basic slash menu functionality.
+
