@@ -246,3 +246,73 @@
   width: fit-content;
   margin: 0 auto;
 }
+
+/* Text Reveal Animation */
+.textRevealContainer {
+  position: relative;
+  z-index: 0;
+  height: 200vh;
+  background: linear-gradient(to bottom, white, var(--color-bg-subtle));
+}
+
+.textRevealSticky {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.textRevealContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .textRevealContent {
+    font-size: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .textRevealContent {
+    font-size: 4.5rem;
+  }
+}
+
+.wordWrapper {
+  position: relative;
+  margin: 0 0.25em;
+}
+
+@media (min-width: 768px) {
+  .wordWrapper {
+    margin: 0 0.3em;
+  }
+}
+
+.wordShadow {
+  opacity: 0.15;
+  color: var(--color-primary);
+}
+
+.wordReveal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-primary);
+}
+
+.revealSection {
+  margin-top: -1px;
+}

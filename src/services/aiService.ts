@@ -4,7 +4,7 @@ import type { StudyMaterialMessage } from '../types/studyMaterial';
 const AI_FUNCTION_URL = import.meta.env.VITE_AI_FUNCTION_URL || '/api/ai';
 
 interface AIRequestBase {
-  action: 'summarize' | 'ask' | 'explain';
+  action: 'summarize' | 'ask' | 'explain' | 'refine';
   materialText: string;
 }
 
@@ -24,7 +24,12 @@ interface ExplainRequest extends AIRequestBase {
   concept: string;
 }
 
-type AIRequest = SummarizeRequest | AskRequest | ExplainRequest;
+interface RefineRequest extends AIRequestBase {
+  action: 'refine';
+  type: 'grammar' | 'fluff' | 'simplify';
+}
+
+type AIRequest = SummarizeRequest | AskRequest | ExplainRequest | RefineRequest;
 
 interface AIResponse {
   content: string;
@@ -107,6 +112,20 @@ export const aiService = {
       concept,
     });
   },
+
+  /**
+   * Refine text (grammar, de-fluff, simplify)
+   */
+  async refine(
+    materialText: string,
+    type: 'grammar' | 'fluff' | 'simplify' = 'grammar'
+  ): Promise<AIResponse> {
+    return callAI({
+      action: 'refine',
+      materialText,
+      type,
+    });
+  },
 };
 
 // System prompts for AI interactions
@@ -124,4 +143,9 @@ Use clear, structured formatting with headers where appropriate.`,
   },
   ask: `You are a patient and supportive study assistant helping a neurodivergent learner understand their study material. Answer questions based ONLY on the provided material. If the answer isn't in the material, say so clearly. Use simple, clear language and provide examples when helpful.`,
   explain: `You are a patient tutor explaining concepts to a neurodivergent learner. Explain the requested concept in simple terms, using analogies and examples. Break down complex ideas into smaller, digestible parts.`,
+  refine: {
+    grammar: `You are a meticulous editor. Correct all grammar, spelling, punctuation, and spacing errors in the provided text. Do not change the meaning. Return ONLY the corrected text.`,
+    fluff: `You are a content editor. Remove marketing fluff, advertisements, and filler content from the provided text. Keep the core information and meaning intact. Return ONLY the cleaned text.`,
+    simplify: `You are a writing coach. Rewrite the provided text to be simpler, clearer, and easier to read. Use active voice and short sentences. Return ONLY the simplified text.`
+  }
 };

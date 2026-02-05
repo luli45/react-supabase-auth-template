@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+.yarn/
+.expo/
+dist/
+npm-debug.*
+package-lock.json
+yarn.lock
+
+# Certificates and Keys
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+
+# Build folders
+ios/
+android/
+web-build/
+
+# Environment & Config
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+expo-env.d.ts
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+firebase-config.js
+firebase-config.ts
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+firebase-adminsdk.json
+
+# Expo
+.expo/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+.expo-shared/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Debug & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+debug.log
+*.log
+
+
+# Misc
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*.temp

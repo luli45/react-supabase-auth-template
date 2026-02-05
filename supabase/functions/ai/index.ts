@@ -17,6 +17,11 @@ Use clear, structured formatting with headers where appropriate.`,
   },
   ask: `You are a patient and supportive study assistant helping a neurodivergent learner understand their study material. Answer questions based ONLY on the provided material. If the answer isn't in the material, say so clearly. Use simple, clear language and provide examples when helpful.`,
   explain: `You are a patient tutor explaining concepts to a neurodivergent learner. Explain the requested concept in simple terms, using analogies and examples. Break down complex ideas into smaller, digestible parts.`,
+  refine: {
+    grammar: `You are a meticulous editor. Correct all grammar, spelling, punctuation, and spacing errors in the provided text. Fix any typos, missing spaces, incorrect capitalization, and formatting issues. Do not change the meaning or content. Return ONLY the corrected text with no explanations or comments.`,
+    fluff: `You are a content editor. Remove marketing fluff, advertisements, promotional language, and filler content from the provided text. Keep the core information and meaning intact. Return ONLY the cleaned text with no explanations.`,
+    simplify: `You are a writing coach. Rewrite the provided text to be simpler, clearer, and easier to read. Use active voice and short sentences. Break down complex sentences. Return ONLY the simplified text with no explanations.`,
+  },
 };
 
 Deno.serve(async (req) => {
@@ -31,7 +36,7 @@ Deno.serve(async (req) => {
       throw new Error('GEMINI_API_KEY not configured');
     }
 
-    const { action, materialText, style, question, concept, conversationHistory } = await req.json();
+    const { action, materialText, style, question, concept, conversationHistory, type } = await req.json();
 
     if (!materialText) {
       throw new Error('materialText is required');
@@ -74,6 +79,12 @@ Deno.serve(async (req) => {
         if (!concept) throw new Error('concept is required for explain action');
         systemPrompt = PROMPTS.explain;
         userMessage = `Based on this study material:\n\n${truncatedMaterial}\n\nPlease explain this concept in simple terms: ${concept}`;
+        break;
+
+      case 'refine':
+        const refineType = (type as keyof typeof PROMPTS.refine) || 'grammar';
+        systemPrompt = PROMPTS.refine[refineType] || PROMPTS.refine.grammar;
+        userMessage = `Please process this text:\n\n${truncatedMaterial}`;
         break;
 
       default:
