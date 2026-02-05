@@ -5,6 +5,7 @@ import { useBlockSuiteEditor } from '../../hooks/useBlockSuiteEditor';
 import { BlockSuiteEditor } from '../../components/editor/BlockSuiteEditor';
 import { EditorToolbar } from '../../components/editor/EditorToolbar';
 import { EditorAISidebar } from '../../components/editor/EditorAISidebar';
+import { AudioPlayer } from '../../components/audio/AudioPlayer';
 import type { Document } from '../../types/document';
 import './documents.css';
 
@@ -21,27 +22,25 @@ function EditorContent({ document, isSaving, save }: EditorContentProps) {
 
   const [editorMode, setEditorMode] = useState<'page' | 'edgeless'>('page');
   const [showAISidebar, setShowAISidebar] = useState(false);
+  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [currentDocText, setCurrentDocText] = useState('');
 
-  const { doc, isReady, getSnapshot, getDocText } = useBlockSuiteEditor({
+  const { doc, isReady, getSnapshot, getDocText, insertContent } = useBlockSuiteEditor({
     documentId: document.id,
     initialContent: document.content,
   });
 
-  // Update text for AI when sidebar opens
+  // Update text for AI or Audio when active
   useEffect(() => {
-    if (showAISidebar && isReady) {
+    if ((showAISidebar || showAudioPlayer) && isReady) {
       getDocText().then(setCurrentDocText);
     }
-  }, [showAISidebar, isReady, getDocText]);
+  }, [showAISidebar, showAudioPlayer, isReady, getDocText]);
 
   const handleInsertContent = useCallback((content: string) => {
-    // In a real implementation, we would insert at cursor.
-    // For now, we might alert or append to end if we had a proper 'insertAtEnd' method.
-    // BlockSuite is complex, we will just copy to clipboard for now or assume user can copy-paste
-    navigator.clipboard.writeText(content);
-    alert("Content copied to clipboard! Paste it where you want.");
-  }, []);
+    insertContent(content);
+    // Optional: Give feedback?
+  }, [insertContent]);
 
   const handleSave = useCallback(async () => {
     if (!doc) return;
@@ -118,6 +117,22 @@ function EditorContent({ document, isSaving, save }: EditorContentProps) {
         </div>
 
         <button
+          onClick={() => setShowAudioPlayer(!showAudioPlayer)}
+          className="btn glass-panel"
+          style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '8px 16px', borderRadius: 'var(--radius-lg)',
+            color: showAudioPlayer ? 'var(--color-primary)' : 'var(--color-secondary)',
+            border: showAudioPlayer ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
+            fontWeight: 600,
+            transition: 'all 0.2s',
+            background: showAudioPlayer ? 'var(--color-accent-subtle)' : 'var(--color-bg-glass)'
+          }}
+        >
+          🎧 Listen
+        </button>
+
+        <button
           onClick={() => setShowAISidebar(!showAISidebar)}
           className="btn glass-panel"
           style={{
@@ -150,6 +165,18 @@ function EditorContent({ document, isSaving, save }: EditorContentProps) {
           </div>
         )}
       </div>
+
+      {showAudioPlayer && (
+        <div style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000
+        }}>
+          <AudioPlayer text={currentDocText} />
+        </div>
+      )}
     </>
   );
 }

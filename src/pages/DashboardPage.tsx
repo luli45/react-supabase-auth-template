@@ -92,11 +92,13 @@ export default function DashboardPage() {
                 onClick={handleQuickStart}
                 className="btn"
                 style={{
-                  backgroundColor: 'var(--color-primary)',
-                  color: 'white',
+                  backgroundColor: 'var(--color-accent)', /* Neuro-Adaptive: Soft Amber */
+                  color: 'var(--color-primary)',
                   alignSelf: 'start',
                   marginTop: 'var(--spacing-md)',
-                  padding: '10px 24px'
+                  padding: '12px 28px',
+                  fontSize: '1.1rem',
+                  fontWeight: 700
                 }}
               >
                 {recentDoc ? 'Continue Editing' : 'Create Document'}
@@ -107,21 +109,57 @@ export default function DashboardPage() {
             <div className="glass-card" style={{
               gridColumn: 'span 4',
               padding: 'var(--spacing-lg)',
-              borderRadius: 'var(--radius-lg)'
+              borderRadius: 'var(--radius-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative'
             }}>
-              <h3 style={{ fontSize: '1rem', color: 'var(--color-secondary)', marginBottom: 'var(--spacing-md)' }}>Weekly Goal</h3>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                <span style={{ fontSize: '2.5rem', fontWeight: '700', color: 'var(--color-primary)' }}>15</span>
-                <span style={{ color: 'var(--color-tertiary)' }}>/ 40 mins</span>
+              <h3 style={{
+                fontSize: '1rem',
+                color: 'var(--color-secondary)',
+                position: 'absolute',
+                top: 'var(--spacing-lg)',
+                left: 'var(--spacing-lg)',
+                margin: 0
+              }}>Weekly Goal</h3>
+
+              {/* Growth Ring (SVG Donut) */}
+              <div style={{ position: 'relative', width: '120px', height: '120px', marginTop: 'var(--spacing-md)' }}>
+                <svg width="120" height="120" viewBox="0 0 120 120" style={{ transform: 'rotate(-90deg)' }}>
+                  {/* Background Ring */}
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="54"
+                    fill="none"
+                    stroke="var(--color-surface-active)"
+                    strokeWidth="12"
+                  />
+                  {/* Frogress Ring (35%) */}
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="54"
+                    fill="none"
+                    stroke="var(--color-accent)"
+                    strokeWidth="12"
+                    strokeDasharray="339.292"
+                    strokeDashoffset={339.292 * (1 - 0.35)}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div style={{
+                  position: 'absolute',
+                  top: 0, left: 0, width: '100%', height: '100%',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                }}>
+                  <span style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-primary)' }}>35%</span>
+                </div>
               </div>
-              <div style={{
-                height: '6px',
-                backgroundColor: 'var(--color-surface-active)',
-                borderRadius: '99px',
-                marginTop: 'var(--spacing-md)',
-                overflow: 'hidden'
-              }}>
-                <div style={{ width: '35%', height: '100%', backgroundColor: 'var(--color-accent)' }}></div>
+              <div style={{ marginTop: 'var(--spacing-sm)', fontSize: '0.9rem', color: 'var(--color-secondary)' }}>
+                15 / 40 mins
               </div>
             </div>
 

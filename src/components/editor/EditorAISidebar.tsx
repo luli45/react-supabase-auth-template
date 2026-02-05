@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import { aiService } from '../../services/aiService';
-import { useSession } from '../../context/SessionContext';
 import styles from './EditorAISidebar.module.css';
 
 interface Message {
@@ -62,7 +61,6 @@ export function EditorAISidebar({ docText, onInsertContent, onClose }: EditorAIS
         setIsLoading(true);
 
         let prompt = '';
-        let apiAction = '';
 
         switch (action) {
             case 'summarize':

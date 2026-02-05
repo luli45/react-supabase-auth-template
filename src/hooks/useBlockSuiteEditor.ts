@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import type { Doc, DocCollection, DocSnapshot } from '@blocksuite/store';
+import { Text, type Doc, type DocCollection, type DocSnapshot } from '@blocksuite/store';
 import { createDocCollection } from '../blocksuite';
 import { exportDocToSnapshot, createOrLoadDoc, isValidSnapshot } from '../blocksuite/utils';
 
@@ -14,6 +14,7 @@ interface UseBlockSuiteEditorResult {
   isReady: boolean;
   getSnapshot: () => Promise<DocSnapshot>;
   getDocText: () => Promise<string>;
+  insertContent: (text: string) => Promise<void>;
 }
 
 export function useBlockSuiteEditor({
@@ -66,20 +67,15 @@ export function useBlockSuiteEditor({
 
   const getDocText = useCallback(async (): Promise<string> => {
     if (!doc) return '';
-    // Quick and dirty extraction: iterate blocks
-    // Ideally we use a markdown exporter
     try {
-      // We can use the snapshot json to extract text
       const snapshot = await exportDocToSnapshot(doc);
       const blocks = snapshot.blocks;
       let text = '';
-      // Recursive text extraction or simple iteration depending on structure
-      // Assuming simple structure for now or using titles+text
       Object.values(blocks).forEach((block: any) => {
         if (block.props?.text) {
           text += block.props.text.deltas?.map((d: any) => d.insert).join('') + '\n';
         }
-        if (block.props?.caption) { // For images/other blocks
+        if (block.props?.caption) {
           text += block.props.caption + '\n';
         }
       });
@@ -90,11 +86,39 @@ export function useBlockSuiteEditor({
     }
   }, [doc]);
 
+  const insertContent = useCallback(async (text: string) => {
+    if (!doc) return;
+    try {
+      // Find the note block to append to
+      // We iterate through blocks to find one with flavour 'affine:note'
+      let noteId: string | undefined;
+
+      // Accessing internal store map if available or iterate
+      // @blocksuite/store Doc exposes .blocks as a ReadonlyMap
+      for (const block of doc.blocks.values()) {
+        if (block.flavour === 'affine:note') {
+          noteId = block.id;
+          break;
+        }
+      }
+
+      if (noteId) {
+        // Creates a new paragraph block with the text
+        doc.addBlock('affine:paragraph', { text: new Text(text) }, noteId);
+      } else {
+        console.warn('No note block found to insert content');
+      }
+    } catch (e) {
+      console.error("Error inserting content", e);
+    }
+  }, [doc]);
+
   return {
     doc,
     collection: collectionRef.current,
     isReady,
     getSnapshot,
     getDocText,
+    insertContent,
   };
 }

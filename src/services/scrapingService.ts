@@ -61,5 +61,31 @@ export const scrapingService = {
             console.error('Scraping failed:', error);
             throw error;
         }
+    }, // Correctly close the scrapeUrl method and add a comma for the next property
+
+    /**
+     * Client-side function to clean and de-fluff text.
+     * Useful when API is unavailable or for manual paste.
+     */
+    cleanText(rawText: string): string {
+        if (!rawText) return '';
+
+        let cleaned = rawText
+            // Remove common ad/tracking patterns (simple heauristics)
+            .replace(/Advertisement/gi, '')
+            .replace(/Sponsored Content/gi, '')
+            .replace(/Share this:/gi, '')
+            .replace(/Click here to/gi, '')
+
+            // Normalize whitespace
+            .replace(/\t/g, ' ')
+            .replace(/ {2,}/g, ' ')     // Multiple spaces to single
+            .replace(/\n{3,}/g, '\n\n') // Max 2 newlines
+
+            // Fix common copy-paste artifacts
+            .replace(/•/g, '-')
+            .trim();
+
+        return cleaned;
     }
 };

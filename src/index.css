@@ -1,45 +1,46 @@
 :root {
-  /* "AFFiNE-Pro" Palette */
+  /* "Calm Focus" Palette (Neuro-Adaptive) */
 
-  /* Usage: Primary for text, Surface for cards, Subtle for backgrounds */
-  --color-primary: #1e1e20;
-  /* Almost Black */
-  --color-secondary: #70707c;
-  /* Muted Gray */
-  --color-tertiary: #a0a0ab;
-  /* Light Gray for icons */
+  /* Primary: Deep Slate Blue - Grounding, high contrast */
+  --color-primary: #2C3E50;
+
+  /* Secondary: Sage Green - Calming, growth-oriented */
+  --color-secondary: #829B89;
+
+  /* Accent: Soft Amber - Quick wins, non-aggressive attention */
+  --color-accent: #FFBF00;
+  --color-accent-glare: #FFD700;
+  /* Lighter Amber */
+  --color-accent-subtle: #FFF4CC;
+  /* very pale amber */
 
   /* Backgrounds */
-  --color-bg-default: #ffffff;
-  --color-bg-subtle: #f7f7f9;
-  /* Very light gray-blue tint */
-  --color-bg-glass: rgba(255, 255, 255, 0.75);
-  --color-bg-overlay: rgba(0, 0, 0, 0.02);
+  --color-bg-default: #F9F7F2;
+  /* Off-White / Cream - Reduces eye strain */
+  --color-bg-subtle: #F0EFE9;
+  /* Slightly darker cream */
+  --color-bg-glass: rgba(249, 247, 242, 0.85);
+  /* Frosty cream */
+  --color-bg-overlay: rgba(44, 62, 80, 0.05);
 
   /* Surfaces */
-  --color-surface: #ffffff;
-  --color-surface-hover: #f4f4f5;
-  --color-surface-active: #ebebef;
-
-  /* Accents - "Electric Violet" & "Focus Blue" gradients in UI, keeping simple here */
-  --color-accent: #7e22ce;
-  /* Purple 700 */
-  --color-accent-glare: #9333ea;
-  /* Purple 600 */
-  --color-accent-subtle: #f3e8ff;
-  /* Purple 100 */
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F5F5F0;
+  --color-surface-active: #EBEBE6;
 
   /* Functional */
-  --color-border: #e8e8ec;
-  /* Very subtle border */
-  --color-border-hover: #d4d4d8;
-  --color-divider: #f0f0f3;
+  --color-border: #E0E0DA;
+  --color-border-hover: #D1D1CB;
+  --color-divider: #EAEAE5;
 
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Primary Body Font */
+  --font-heading: 'Inter', sans-serif;
+  /* Headings */
   --font-mono: 'JetBrains Mono', monospace;
+  /* Data/Logic */
 
-  --font-heading: var(--font-sans);
   --font-body: var(--font-sans);
 
   /* Spacing */
@@ -63,7 +64,8 @@
   /* Shadows - "Super Soft" */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
-  --shadow-float: 0 20px 40px -4px rgba(0, 0, 0, 0.08);
+  --shadow-float: 0 20px 40px -4px rgba(44, 62, 80, 0.08);
+  /* Adjusted shadow color to match primary */
   /* High float */
   --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
 
