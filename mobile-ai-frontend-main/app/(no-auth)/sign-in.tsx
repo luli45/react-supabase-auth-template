@@ -33,6 +33,7 @@ const SignIn = () => {
     isLoading,
     signInWithGoogle,
     signInWithApple,
+    signUpAnonymously,
     showPassword,
     handleShowPassword,
   } = useAuth();
@@ -201,6 +202,16 @@ const SignIn = () => {
               />
             </Animated.View>
           )}
+
+          <Animated.View entering={FadeInDown.duration(ANIMATION_DURATION.D10)}>
+            <AuthButton
+              onPress={signUpAnonymously}
+              icon="person-outline"
+              text="Continue as Guest (Test)"
+              disabled={isLoading}
+              loading={isLoading}
+            />
+          </Animated.View>
 
           <Animated.View
             entering={FadeInDown.duration(ANIMATION_DURATION.D10)}

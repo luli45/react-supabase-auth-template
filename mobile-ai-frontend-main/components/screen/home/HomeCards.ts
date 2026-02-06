@@ -1,11 +1,11 @@
-import { Focus, Image, LucideIcon } from "lucide-react-native";
+import { LucideIcon } from "lucide-react-native";
 import {
+  StickyNote,
+  PenTool,
+  Search,
   MessageCircle,
-  ShoppingCart,
-  Bell,
-  Languages,
-  DollarSign,
-  Palette,
+  BookOpen,
+  Settings,
 } from "lucide-react-native";
 
 export const features: {
@@ -13,89 +13,48 @@ export const features: {
   icon: LucideIcon;
   route: string;
   name: string;
+  description?: string;
 }[] = [
   {
-    id: "0",
+    id: "notes",
+    icon: StickyNote,
+    route: "(features)/notes",
+    name: "Notes",
+    description: "Create and edit notes",
+  },
+  {
+    id: "write",
+    icon: PenTool,
+    route: "(features)/gemini",
+    name: "Read & Write",
+    description: "Detailed note taking",
+  },
+  {
+    id: "research",
+    icon: Search,
+    route: "(features)/claude",
+    name: "Research",
+    description: "AI-powered research",
+  },
+  {
+    id: "chat",
     icon: MessageCircle,
     route: "(features)/chatgpt",
-    name: "Open AI",
+    name: "AI Chat",
+    description: "Chat with AI assistant",
   },
   {
-    id: "1",
-    icon: MessageCircle,
-    route: "(features)/claude",
-    name: "Anthropic",
-  },
-  {
-    id: "2",
-    icon: Image,
-    route: "(features)/chatgpt-image",
-    name: "ChatGPT Image",
-  },
-  {
-    id: "3",
-    icon: MessageCircle,
+    id: "study",
+    icon: BookOpen,
     route: "(features)/openrouter",
-    name: "Open Router",
+    name: "Study",
+    description: "Study materials",
   },
   {
-    id: "4",
-    icon: MessageCircle,
-    route: "(features)/gemini",
-    name: "Gemini",
-  },
-  {
-    id: "5",
-    icon: Image,
-    route: "(features)/replicate",
-    name: "Replicate AI",
-  },
-  {
-    id: "6",
-    icon: Image,
-    route: "(features)/fal",
-    name: "Fal AI",
-  },
-  {
-    id: "7",
-    icon: Focus,
-    route: "(features)/identifier",
-    name: "Image Identifier",
-  },
-  {
-    id: "8",
-    icon: ShoppingCart,
-    route: "paywall-single",
-    name: "Paywall - Single",
-  },
-  {
-    id: "9",
-    icon: ShoppingCart,
-    route: "paywall-double",
-    name: "Paywall - Double",
-  },
-  {
-    id: "10",
-    icon: Bell,
-    name: "Notifications",
-    route: "settings/notifications",
-  },
-  {
-    id: "11",
-    icon: Languages,
-    name: "Language",
-    route: "settings/language",
-  },
-  {
-    id: "12",
-    icon: DollarSign,
-    name: "Admob",
-    route: "admob",
-  },
-  {
-    id: "13",
-    icon: Palette,
+    id: "settings",
+    icon: Settings,
     route: "settings/theme",
-    name: "Theme",
+    name: "Settings",
+    description: "App preferences",
   },
 ];

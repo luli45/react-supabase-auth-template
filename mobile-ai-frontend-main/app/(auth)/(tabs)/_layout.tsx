@@ -17,7 +17,7 @@ const TabLayout = () => {
         name="index"
         options={{
           title: "Home",
-          headerTitle: "Ship Mobile Fast",
+          headerTitle: "FocusPrep",
           tabBarIcon: ({ color }: { color: string }) => (
             <TabBarIcon name={"home"} color={color} />
           ),

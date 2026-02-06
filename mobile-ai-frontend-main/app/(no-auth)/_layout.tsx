@@ -11,7 +11,7 @@ const Layout = () => {
         headerShown: false,
         headerTintColor: Colors[mode].text,
       }}
-      initialRouteName="onboarding"
+      initialRouteName="sign-in"
     >
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="sign-in" />

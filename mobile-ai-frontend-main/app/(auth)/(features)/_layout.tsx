@@ -63,6 +63,19 @@ const FeaturesStack = () => {
           title: "Open Router",
         }}
       />
+      <Stack.Screen
+        name="notes"
+        options={{
+          title: "Notes",
+        }}
+      />
+      <Stack.Screen
+        name="note-editor"
+        options={{
+          title: "Note Editor",
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };
